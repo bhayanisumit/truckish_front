@@ -1,1 +1,102 @@
-<p>home works!</p>
+ 
+                <nav class="navbar navbar-expand-lg navbar-light bg-dark ">
+                        <a class="navbar-brand text-white" >Truckish</a>
+                        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+                          <span class="navbar-toggler-icon"></span>
+                        </button>
+                        <div class="collapse navbar-collapse" id="navbarText">
+                          <ul class="navbar-nav mr-auto">
+                           
+                            
+                          </ul>
+                          <span class="navbar-text">
+                            <span class="badge badge-secondary mr-2">{{fullname}}</span>
+                          <button (click)="logout()" class="btn-sm btn btn-danger" >Logout</button>
+                          </span>
+                        </div>
+                      </nav>
+ 
+                        <div class="container">
+                                <div class="row pt-3">
+                                        <button (click)="openadd()" *ngIf="!status" class="btn btn-info "><i class="fa fa-plus"></i></button>
+                                        <button (click)="close()" *ngIf="status" class="btn btn-info "><i class="fa fa-minus"></i></button>
+                                  </div>
+                        </div>
+                        <div *ngIf="status" class="container cust-m">
+                            <div class="row">
+                                <div class="col-6">
+                                        <form [formGroup]="addForm" (ngSubmit)="onSubmit()" enctype="multipart/form-data">
+                                                <div class="form-group">
+                                                  <label for="name">Name</label>
+                                                  <input type="text" formControlName="name" [ngClass]="{ 'is-invalid': submitted && f.name.errors }" class="form-control" placeholder="Enter name">
+                                                  <div *ngIf="submitted && f.name.errors" class="invalid-feedback">
+                                                        <div *ngIf="f.name.errors.required">Name is required</div>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                  <label for="desc">Description</label>
+                                                  <textarea class="form-control"  formControlName="desc" [ngClass]="{ 'is-invalid': submitted && f.desc.errors }" rows="3"></textarea>
+                                                  <div *ngIf="submitted && f.desc.errors" class="invalid-feedback">
+                                                        <div *ngIf="f.desc.errors.required">Description is required</div>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                        <label for="image">Image</label>
+                                                        <input  (change)="handleFileInput($event.target.files)" type="file" class="form-control-file" formControlName="image"   [ngClass]="{ 'is-invalid': submitted && f.image.errors }" >
+                                                        <div *ngIf="submitted && f.image.errors" class="invalid-feedback">
+                                                                <div *ngIf="f.image.errors.required">image is required</div>
+                                                            </div>
+                                                </div>
+                                                <div class="form-group">
+                                                        <label for="address">Address</label>
+                                                        <textarea class="form-control" rows="3" formControlName="address" [ngClass]="{ 'is-invalid': submitted && f.address.errors }"></textarea>
+                                                        <div *ngIf="submitted && f.address.errors" class="invalid-feedback">
+                                                                <div *ngIf="f.address.errors.required">address is required</div>
+                                                            </div>
+                                                </div>
+                                                <div class="form-group">
+                                                      <button type="submit" class="btn btn-primary"><i class="fa fa-check"></i></button>
+                                                      <button (click)="close()" class="btn btn-danger ml-2"><i class="fa fa-times"></i></button>
+                                                </div>
+                                            </form> 
+                                </div>
+                            </div>
+                        </div>
+                      <div *ngIf="!status" class="container cust-m">
+                       
+                          <div class="row">
+                              <div class="col">
+                                  <div *ngIf="!stories.length"><h1>No Record Found</h1></div>
+                                    <div *ngIf="stories.length > 0" class="table-responsive">
+                                        <input type="text" class="form-control mt-1" (input)="onSearchChange($event.target.value)"  placeholder="Enter name for search">
+                                            <table class="table mt-1">
+                                                   
+                                                    <thead>
+                                                      <tr>
+                                                        <th scope="col">#</th>
+                                                        <th scope="col">Name</th>
+                                                        <th scope="col">Description</th>
+                                                        <th scope="col">Image</th>
+                                                        <th scope="col">Address</th>
+                                                        <th scope="col">Action</th>
+                                                      </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                      <tr *ngFor="let data of stories">
+                                                        <th scope="row">1</th>
+                                                        <td>{{data.name}}</td>
+                                                        <td>{{data.description}}</td>
+                                                        <td> <img class="img-thumbnail rounded cust-width" src="{{serverurl}}{{data.imgname}}"  /></td>
+                                                        <td>{{data.address}}</td>
+                                                        
+                                                        <td><i (click)="delrow(data._id,data.imgname)" class="btn btn-sm btn-danger fa fa-trash ml-2"></i> </td>
+                                                      </tr>
+                                                    
+                                                     
+                                                    </tbody>
+                                                  </table>
+                                          </div>
+                              </div>
+                          </div>
+                      </div>
+        
